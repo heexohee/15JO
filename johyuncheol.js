@@ -1,10 +1,25 @@
 const readline = require("readline");
 
+
+// // AS-IS
+// //중복없는 난수 3개 생성 
+// var generate_num = function (){
+//     while(answer.length<3){
+//         let r_num=parseInt(Math.random()*9);
+        
+//         if(answer.includes(r_num)===false){
+//             answer.push(r_num);
+//         }
+//     }
+// }
+
+
+//TO-BE
 //Set 자료구조로 중복없는 난수생성 (정답 값 생성) 
-var generate_num = function () {
-    let answerSet = new Set();
-    while (answerSet.size < 3) {
-        let r_num = parseInt(Math.random() * 9);
+var generate_num = function (){
+    let answerSet=new Set();
+    while(answerSet.size<3){
+        let r_num=parseInt(Math.random()*9);
         answerSet.add(r_num); //Set은 중복이 안됨
     }
     let answer = [...answerSet];
@@ -25,6 +40,7 @@ function playBaseballGame() {
     });
 
 
+
     console.log("게임을 시작합니다.");
 
     const makeGuess = () => {
@@ -32,6 +48,8 @@ function playBaseballGame() {
             count++;
             userCode = [...userCode].map(Number); // 입력값 숫자로 변환 
             //console.log(userCode);
+
+
 
             if (userCode.length !== 3 || isNaN(userCode) === false) {
                 console.log("올바른 입력이 아닙니다. 세 자리 숫자를 입력해주세요.");
