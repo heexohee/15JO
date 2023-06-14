@@ -1,56 +1,72 @@
 const readline = require("readline");
 
-//입출력 인터페이스 객체 생성  
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
-
- //Set 자료구조로 중복없는 난수생성 (정답 값 생성) 
-var generate_num = function (){
-    let answerSet=new Set();
-    while(answerSet.size<3){
-        let r_num=parseInt(Math.random()*9);
+//Set 자료구조로 중복없는 난수생성 (정답 값 생성) 
+var generate_num = function () {
+    let answerSet = new Set();
+    while (answerSet.size < 3) {
+        let r_num = parseInt(Math.random() * 9);
         answerSet.add(r_num); //Set은 중복이 안됨
     }
-    answer=[...answerSet]; 
+    let answer = [...answerSet];
+    return answer;
 }
 
-generate_num(); 
-console.log(answer);
-
-let count=1; //시도횟수 체크 
 console.log("컴퓨터가 숫자를 생성하였습니다. 답을 맞춰보세요!");
-console.log(count+'번째 시도 :')
+
+function playBaseballGame() {
+    const answer = generate_num();//위에서 생성한 3자리 난수를 생성하는 함수를 변수에 담고.
+    console.log(`정답 : ${answer}`);
+    let count = 0; //시도횟수
+
+    //입출력 인터페이스 객체 생성  
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    });
 
 
-//입력하는 부분
-rl.on("line", (line) => {
-    let check = [...(line.split(' '))].map(Number); //입력된 값이 담기는 배열
-    let strike = 0; // 스트라이크 수 
-    let ball = 0;  //볼 수
+    console.log("게임을 시작합니다.");
 
-    for(let i=0;i<check.length;i++){
-        if(check[i]===answer[i]) {
-            strike++;
-        }
-        else if(check.includes(answer[i])===true){
-            ball++;
-        }
-    }
+    const makeGuess = () => {
+        rl.question(`[${count + 1}번째 시도] 세 자리 숫자를 입력하세요(중복없이): `, (userCode) => {
+            count++;
+            userCode = [...userCode].map(Number); // 입력값 숫자로 변환 
+            //console.log(userCode);
 
-    console.log(strike+"B"+strike+"S");
+            if (userCode.length !== 3 || isNaN(userCode) === false) {
+                console.log("올바른 입력이 아닙니다. 세 자리 숫자를 입력해주세요.");
+                makeGuess();
+                return;
+            }
 
-    // 입력 종료 
-    if(strike===3) {
-        console.log(count+'번만에 정답!');
-        console.log('게임을 종료합니다');
-        rl.close();
-    }
-    else{
-    count++;
-    console.log(count+'번째 시도 :');
-    }
-});
+            let strikes = 0;
+            let balls = 0;
 
+            for (let i = 0; i < 3; i++) {
+                if (answer[i] === userCode[i]) {
+                    strikes++;
+                } else if (answer.includes(userCode[i])) {
+                    balls++;
+                }
+            }
+
+            console.log(`${balls}B${strikes}S`);
+
+            if (strikes === 3) {
+                console.log(`축하합니다! ${count}번 만에 맞추셨습니다.`);
+                rl.close();
+            } else {
+                makeGuess();
+            }
+        });
+    };
+
+    makeGuess();
+
+    rl.on('close', () => {
+        console.log("게임을 종료합니다.");
+    });
+}
+
+playBaseballGame();
 
