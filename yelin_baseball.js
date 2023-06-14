@@ -43,7 +43,7 @@ rl.on("line", (num) => {
     }
   });
 
-  console.log(s, b);
+  console.log(`${b}B ${s}S`);
 
   if (s === 3) {
     rl.close();
