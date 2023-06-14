@@ -1,4 +1,4 @@
-var rl = require("readline").createInterface({
+let rl = require("readline").createInterface({
   input: process.stdin,
   output: process.stdout,
 });
@@ -6,7 +6,7 @@ var rl = require("readline").createInterface({
 //랜덤숫자 생성 (재귀함수 사용)
 function randomNum(array) {
   if (!array) {
-    var array = [];
+    array = [];
   }
 
   let n = Math.floor(Math.random() * 9) + 1;
