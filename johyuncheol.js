@@ -43,7 +43,8 @@ rl.on("line", (line) => {
     let check = [...(line.split(' '))].map(Number); //입력된 값이 담기는 배열
     let strike = 0; // 스트라이크 수 
     let ball = 0;  //볼 수
-
+    
+    //스트라이크 볼 
     for(let i=0;i<check.length;i++){
         if(check[i]===answer[i]) {
             strike++;
